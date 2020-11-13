@@ -22,7 +22,6 @@
 #pragma once
 
 #define BOARD_INFO_NAME "BTT SKR V1.3"
-#define TMC_USE_SW_SPI 1
 
 //
 // Trinamic Stallguard pins
