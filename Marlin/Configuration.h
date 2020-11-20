@@ -805,7 +805,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 100, 100, 20, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 60, 60, 15, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -951,7 +951,7 @@
  * Z Servo Probe, such as an endstop switch on a rotating arm.
  */
 #define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
-#define Z_SERVO_ANGLES { 70, 0 } // Z Servo Deploy and Stow angles
+#define Z_SERVO_ANGLES { 90, 20 } // Z Servo Deploy and Stow angles
 
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
@@ -1183,7 +1183,7 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false
+#define INVERT_X_DIR true
 #define INVERT_Y_DIR true
 #define INVERT_Z_DIR false
 
@@ -2705,7 +2705,7 @@
  * Set this manually if there are extra servos needing manual control.
  * Set to 0 to turn off servo support.
  */
-//#define NUM_SERVOS 3 // Servo index starts with 0 for M280 command
+#define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 
 // (ms) Delay  before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
@@ -2713,7 +2713,7 @@
 #define SERVO_DELAY { 300 }
 
 // Only power servos during movement, otherwise leave off to prevent jitter
-//#define DEACTIVATE_SERVOS_AFTER_MOVE
+#define DEACTIVATE_SERVOS_AFTER_MOVE
 
 // Edit servo angles with M281 and save to EEPROM with M500
 //#define EDITABLE_SERVO_ANGLES
