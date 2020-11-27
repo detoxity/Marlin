@@ -78,9 +78,9 @@
 // Servos
 //
 #ifndef SERVO0_PIN
-  #define SERVO0_PIN                       P2_00
+  //#define SERVO0_PIN                       P2_00
 #endif
-
+#define SOL1_PIN                            P2_00
 //
 // Z Probe (when not Z_MIN_PIN)
 //
