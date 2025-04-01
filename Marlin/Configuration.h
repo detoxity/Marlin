@@ -144,7 +144,7 @@
 #define EXTRUDERS 1
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
-#define DEFAULT_NOMINAL_FILAMENT_DIA 1.75
+#define DEFAULT_NOMINAL_FILAMENT_DIA 3.0
 
 // For Cyclops or any "multi-extruder" that shares a single nozzle.
 //#define SINGLENOZZLE
@@ -423,7 +423,7 @@
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 0
+#define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 
@@ -443,12 +443,16 @@
 #define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
 #define TEMP_RESIDENCY_TIME     10  // (seconds) Time to wait for hotend to "settle" in M109
-#define TEMP_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_HYSTERESIS          3  // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_WINDOW             10  // (°C) Temperature proximity for the "temperature reached" timer
+#define TEMP_HYSTERESIS         13  // (°C) Temperature proximity considered "close enough" to the target
 
 #define TEMP_BED_RESIDENCY_TIME 10  // (seconds) Time to wait for bed to "settle" in M190
-#define TEMP_BED_WINDOW          1  // (°C) Temperature proximity for the "temperature reached" timer
+#define TEMP_BED_WINDOW          3  // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_BED_HYSTERESIS      3  // (°C) Temperature proximity considered "close enough" to the target
+
+#define TEMP_CHAMBER_RESIDENCY_TIME 10  // (seconds) Time to wait for chamber to "settle" in M191
+#define TEMP_CHAMBER_WINDOW      1  // (°C) Temperature proximity for the "temperature reached" timer
+#define TEMP_CHAMBER_HYSTERESIS  3  // (°C) Temperature proximity considered "close enough" to the target
 
 // Below this temperature the heater will be switched off
 // because it probably indicates a broken thermistor wire.
@@ -499,9 +503,9 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp  22.20
-    #define DEFAULT_Ki   1.08
-    #define DEFAULT_Kd 114.00
+    #define DEFAULT_Kp  18.47
+    #define DEFAULT_Ki   0.87
+    #define DEFAULT_Kd 98.36
   #endif
 #endif // PIDTEMP
 
@@ -741,14 +745,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 800, 145 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 800, 510 }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 100, 100, 20, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 30, 30, 10, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -844,7 +848,7 @@
 #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -893,8 +897,8 @@
 /**
  * Z Servo Probe, such as an endstop switch on a rotating arm.
  */
-#define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
-#define Z_SERVO_ANGLES { 70, 0 } // Z Servo Deploy and Stow angles
+//#define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
+//#define Z_SERVO_ANGLES { 20, 100 } // Z Servo Deploy and Stow angles
 
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
@@ -924,7 +928,7 @@
 #endif
 
 // A probe that is deployed and stowed with a solenoid pin (SOL1_PIN)
-//#define SOLENOID_PROBE
+#define SOLENOID_PROBE
 
 // A sled-mounted probe like those designed by Charles Bell.
 //#define Z_PROBE_SLED
@@ -1131,7 +1135,7 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 800
+#define Z_MAX_POS 930
 
 /**
  * Software Endstops
@@ -1393,8 +1397,8 @@
 #endif
 
 // Homing speeds (mm/min)
-#define HOMING_FEEDRATE_XY (50*60)
-#define HOMING_FEEDRATE_Z  (4*60)
+#define HOMING_FEEDRATE_XY (30*60)
+#define HOMING_FEEDRATE_Z  (8*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -1501,15 +1505,19 @@
 
 // @section temperature
 
-// Preheat Constants
+//
+// Preheat Constants - Up to 5 are supported without changes
+//
 #define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 180
+#define PREHEAT_1_TEMP_HOTEND 230
 #define PREHEAT_1_TEMP_BED     70
+#define PREHEAT_1_TEMP_CHAMBER 35
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "ABS"
 #define PREHEAT_2_TEMP_HOTEND 240
 #define PREHEAT_2_TEMP_BED    110
+#define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 /**
@@ -2382,6 +2390,7 @@
   // Use a single NeoPixel LED for static (background) lighting
   //#define NEOPIXEL_BKGD_LED_INDEX  0               // Index of the LED to use
   //#define NEOPIXEL_BKGD_COLOR { 255, 255, 255, 0 } // R, G, B, W
+  //#define NEOPIXEL_BKGD_ALWAYS_ON                  // Keep the backlight on when other NeoPixels are off
 #endif
 
 /**
@@ -2406,7 +2415,7 @@
  * Set this manually if there are extra servos needing manual control.
  * Set to 0 to turn off servo support.
  */
-//#define NUM_SERVOS 3 // Servo index starts with 0 for M280 command
+//#define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 
 // (ms) Delay  before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
